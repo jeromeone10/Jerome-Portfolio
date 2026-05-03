@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Jerome M. Niñal - Portfolio
 
 A modern, responsive personal portfolio website built with React, Tailwind CSS, and Framer Motion.
@@ -71,3 +72,7 @@ src/
 ## License
 
 This project is licensed under the MIT License.
+=======
+# Jerome-Portfolio
+Personal Portfolio
+>>>>>>> 541c05ce3d2a46e5bc64eba31793480de68d4d60
