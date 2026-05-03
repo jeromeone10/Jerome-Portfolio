@@ -31,5 +31,9 @@
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "vite": "^5.2.0"
-  }
+  },
+
+
+"vercel-build": "npm ci && npm run build"
+
 }
