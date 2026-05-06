@@ -20,15 +20,19 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      // Using Node.js backend with Nodemailer
-      // Make sure your Node server is running on localhost:5000
-      const response = await fetch('http://localhost:5000/api/send-mail', {
+      // Using Web3Forms for production (Works on Vercel and all devices)
+      // Get your Access Key from https://web3forms.com/
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // Replace with your real key
+          ...formData,
+          subject: `New Portfolio Message: ${formData.subject}`
+        })
       });
 
       const data = await response.json();

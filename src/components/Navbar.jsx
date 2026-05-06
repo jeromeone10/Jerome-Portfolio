@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
-import { Menu, X, Code2, Sun, Moon } from 'lucide-react';
+import { Menu, X, Code2, Sun, Moon, Settings, ChevronRight, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
@@ -9,6 +9,15 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+
+  // Reset settings view when closing the whole menu
+  useEffect(() => {
+    if (!isOpen) {
+      const timer = setTimeout(() => setShowSettings(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,7 +43,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
           : 'bg-transparent py-5'
       }`}
     >
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-10">
+      <div className="w-full mx-auto px-6 sm:px-8 lg:px-10">
         <div className="flex items-center justify-between h-16">
           {/* Left: Logo */}
           <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
@@ -70,27 +79,27 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
 
           {/* Right: Mobile Menu Button, Theme Toggle, & Language Selection */}
           <div className="flex items-center gap-2 sm:gap-3 relative z-[100]">
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="p-2.5 sm:p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 shadow-sm"
-              >
-                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-
             <button
-              onClick={() => {
-                console.log('Theme toggle clicked, isDarkMode:', isDarkMode);
-                toggleTheme();
-              }}
-              className="p-2.5 sm:p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer relative z-[100]"
-              aria-label="Toggle Theme"
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2.5 sm:p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 shadow-sm"
             >
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
 
-            <LanguageSelector />
+            <div className="hidden md:flex items-center gap-2 sm:gap-3">
+              <button
+                onClick={() => {
+                  console.log('Theme toggle clicked, isDarkMode:', isDarkMode);
+                  toggleTheme();
+                }}
+                className="p-2.5 sm:p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer relative z-[100]"
+                aria-label="Toggle Theme"
+              >
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+
+              <LanguageSelector />
+            </div>
           </div>
         </div>
       </div>
@@ -103,26 +112,96 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="md:hidden mx-4 mt-4"
+            className="md:hidden mx-6 mt-4"
           >
-            <div className="bg-slate-900/90 dark:bg-slate-900/95 backdrop-blur-2xl rounded-[2rem] overflow-hidden shadow-2xl border border-white/5 dark:border-white/10">
-              <div className="px-3 py-4 space-y-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    spy={true}
-                    smooth={true}
-                    offset={-70}
-                    duration={350}
-                    onClick={() => setIsOpen(false)}
-                    className="block px-6 py-4 rounded-2xl text-lg font-bold text-slate-300 hover:text-white hover:bg-white/5 transition-all cursor-pointer"
-                    activeClass="bg-white/10 text-cyan-400"
+            <div className="bg-slate-900/90 dark:bg-slate-900/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/10 relative overflow-hidden min-h-[400px] flex flex-col">
+              <AnimatePresence mode="wait">
+                {!showSettings ? (
+                  <motion.div
+                    key="main-menu"
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: -20, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-grow flex flex-col px-4 pt-6 pb-6"
                   >
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
+                    <div className="flex-grow space-y-3">
+                      {navLinks.map((link) => (
+                        <Link
+                          key={link.to}
+                          to={link.to}
+                          spy={true}
+                          smooth={true}
+                          offset={-70}
+                          duration={350}
+                          onClick={() => setIsOpen(false)}
+                          className="block px-6 py-4 rounded-2xl text-lg font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 transition-all cursor-pointer text-center border border-white/5 shadow-sm"
+                          activeClass="!bg-white/10 !text-cyan-400 !border-white/10 shadow-md"
+                        >
+                          {link.name}
+                        </Link>
+                      ))}
+                    </div>
+
+                    {/* Settings Entry Button */}
+                    <button
+                      onClick={() => setShowSettings(true)}
+                      className="w-full mt-4 flex items-center justify-between px-8 py-5 rounded-2xl bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 transition-all font-bold border border-white/5 shadow-sm"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Settings className="w-5 h-5 text-cyan-500" />
+                        <span className="text-lg uppercase tracking-wider">Settings</span>
+                      </div>
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="settings-menu"
+                    initial={{ x: 20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 20, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-grow flex flex-col"
+                  >
+                    {/* Settings Header with Back Button */}
+                    <div className="px-8 pt-8 pb-4 flex items-center gap-4">
+                      <button 
+                        onClick={() => setShowSettings(false)}
+                        className="p-2 rounded-xl bg-white/5 text-slate-300 hover:text-white transition-all"
+                      >
+                        <ArrowLeft className="w-5 h-5" />
+                      </button>
+                      <h3 className="text-xl font-bold text-white uppercase tracking-widest">Settings</h3>
+                    </div>
+
+                    <div className="flex-grow flex flex-col items-center justify-center px-8 py-8 gap-6">
+                      <button
+                        onClick={() => toggleTheme()}
+                        className="w-full flex items-center justify-center gap-4 px-6 py-5 rounded-2xl bg-white/5 text-slate-300 hover:text-white transition-all border border-white/10 shadow-sm"
+                      >
+                        {isDarkMode ? (
+                          <><Sun className="w-6 h-6 text-yellow-400" /> <span className="text-base font-bold tracking-widest uppercase">Light Mode</span></>
+                        ) : (
+                          <><Moon className="w-6 h-6 text-cyan-400" /> <span className="text-base font-bold tracking-widest uppercase">Dark Mode</span></>
+                        )}
+                      </button>
+                      <div className="w-full flex justify-center relative">
+                        <LanguageSelector isMobileMenu={true} />
+                      </div>
+                    </div>
+
+                    <div className="p-8 border-t border-white/10 bg-slate-800/50">
+                      <button
+                        onClick={() => setShowSettings(false)}
+                        className="w-full py-4 rounded-2xl bg-cyan-500 text-white font-bold text-center shadow-lg shadow-cyan-500/20"
+                      >
+                        BACK TO MENU
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}
