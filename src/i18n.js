@@ -77,7 +77,10 @@ const resources = {
             subject: 'Project Inquiry',
             message: 'Your message here...'
           },
-          send: 'Send Message'
+          send: 'Send Message',
+          sending: 'Sending...',
+          success: 'Message sent successfully!',
+          error: 'Something went wrong. Please try again.'
         }
       },
       footer: {
@@ -161,7 +164,10 @@ const resources = {
             subject: 'Inquiry sa Proyekto',
             message: 'Ang iyong mensahe dito...'
           },
-          send: 'Ipadala ang Mensahe'
+          send: 'Ipadala ang Mensahe',
+          sending: 'Ipinapadala...',
+          success: 'Matagumpay na naipadala ang mensahe!',
+          error: 'May nagkamali. Pakisubukang muli.'
         }
       },
       footer: {

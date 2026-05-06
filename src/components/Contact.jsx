@@ -11,13 +11,44 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Logic for form submission (e.g., EmailJS)
-    console.log('Form submitted:', formData);
-    alert('Thank you! Your message has been sent (Demo only).');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // Using Node.js backend with Nodemailer
+      // Make sure your Node server is running on localhost:5000
+      const response = await fetch('http://localhost:5000/api/send-mail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log('Form submitted successfully:', data);
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        // Clear success message after 5 seconds
+        setTimeout(() => setSubmitStatus(null), 5000);
+      } else {
+        console.error('Submission failed:', data);
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -162,12 +193,34 @@ const Contact = () => {
                   placeholder={t('contact.form.placeholder.message')}
                 ></textarea>
               </div>
+              
+              {submitStatus === 'success' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium"
+                >
+                  {t('contact.form.success')}
+                </motion.div>
+              )}
+
+              {submitStatus === 'error' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium"
+                >
+                  {t('contact.form.error')}
+                </motion.div>
+              )}
+
               <button
                 type="submit"
-                className="w-full py-4 bg-cyan-500 hover:bg-cyan-600 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 group shadow-lg shadow-cyan-500/20"
+                disabled={isSubmitting}
+                className="w-full py-4 bg-cyan-500 hover:bg-cyan-600 disabled:bg-slate-400 disabled:cursor-not-allowed text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 group shadow-lg shadow-cyan-500/20"
               >
-                {t('contact.form.send')}
-                <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                {isSubmitting ? t('contact.form.sending') : t('contact.form.send')}
+                <Send className={`w-4 h-4 ${isSubmitting ? 'animate-pulse' : 'group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform'}`} />
               </button>
             </form>
           </motion.div>
