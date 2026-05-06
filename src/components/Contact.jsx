@@ -29,7 +29,7 @@ const Contact = () => {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          access_key: 'be9046cd-95e6-4b4f-a8f9-405f57f9cf7e', // Replace with your real key
+          access_key:'be9046cd-95e6-4b4f-a8f9-405f57f9cf7e', // Replace with your real key
           ...formData,
           subject: `New Portfolio Message: ${formData.subject}`
         })
