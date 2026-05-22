@@ -1,29 +1,89 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import jetlougeImg from '../image/log1.png';
+import jetlougeImg2 from '../image/log2.png';
+import jetlougeImg3 from '../image/log3.png';
 
 const ProjectCard = ({ title, description, tech, image, liveLink, githubLink }) => {
   const { t } = useTranslation();
+  const images = Array.isArray(image) ? image : [image];
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+
+    const interval = window.setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % images.length);
+    }, 4000);
+
+    return () => window.clearInterval(interval);
+  }, [images.length]);
+
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % images.length);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-cyan-500/50 transition-all group flex flex-col h-full shadow-sm hover:shadow-xl"
-    >
-      <div className="relative aspect-video overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-60"></div>
-      </div>
-      
-      <div className="p-6 flex flex-col flex-grow">
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-cyan-500/50 transition-all group flex flex-col h-full shadow-sm hover:shadow-xl"
+      >
+        <div
+          className="relative aspect-video overflow-hidden cursor-pointer"
+          onClick={() => setModalOpen(true)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && setModalOpen(true)}
+        >
+          <img
+            src={images[currentSlide]}
+            alt={`${title} slide ${currentSlide + 1}`}
+            className="w-full h-full object-cover transition-transform duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-60"></div>
+
+          {images.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevSlide();
+                }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-900/60 text-white p-2 hover:bg-slate-900"
+                aria-label="Previous slide"
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextSlide();
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-900/60 text-white p-2 hover:bg-slate-900"
+                aria-label="Next slide"
+              >
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                {images.map((_, idx) => (
+                  <span
+                    key={idx}
+                    className={`h-2 w-2 rounded-full ${idx === currentSlide ? 'bg-cyan-500' : 'bg-white/60'}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+        
+        <div className="p-6 flex flex-col flex-grow">
         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-cyan-500 transition-colors">
           {title}
         </h3>
@@ -61,6 +121,66 @@ const ProjectCard = ({ title, description, tech, image, liveLink, githubLink }) 
         </div>
       </div>
     </motion.div>
+
+    {modalOpen && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 p-4"
+        onClick={() => setModalOpen(false)}
+      >
+        <div
+          className="relative w-full max-w-4xl rounded-3xl overflow-hidden bg-slate-950"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            onClick={() => setModalOpen(false)}
+            className="absolute right-4 top-4 z-20 rounded-full bg-slate-900/80 p-3 text-white hover:bg-slate-800"
+            aria-label="Close image viewer"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          <img
+            src={images[currentSlide]}
+            alt={`${title} slide ${currentSlide + 1}`}
+            className="w-full h-[65vh] object-contain bg-slate-900"
+          />
+
+          {images.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={prevSlide}
+                className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-slate-900/80 p-3 text-white hover:bg-slate-800"
+                aria-label="Previous slide"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <button
+                type="button"
+                onClick={nextSlide}
+                className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-slate-900/80 p-3 text-white hover:bg-slate-800"
+                aria-label="Next slide"
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
+              <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+                {images.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setCurrentSlide(idx)}
+                    className={`h-3 w-3 rounded-full ${idx === currentSlide ? 'bg-cyan-500' : 'bg-white/60'}`}
+                    aria-label={`Select slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    )}
+  </>
   );
 };
 
@@ -88,7 +208,7 @@ const Projects = () => {
       title: 'Jetlouge Travels Logistics System',
       description: t('projects.items.tnvs.desc'),
       tech: ['Laravel', 'MySQL', 'Google Maps API', 'React'],
-      image: 'log1.png',
+      image: [jetlougeImg, jetlougeImg2, jetlougeImg3],
       liveLink: 'https://logistics1.jetlougetravels-ph.com/',
       githubLink: '#'
     }
