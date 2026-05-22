@@ -87,7 +87,7 @@ const Projects = () => {
       title: 'Jetlouge Travels Logistics System',
       description: t('projects.items.tnvs.desc'),
       tech: ['Laravel', 'MySQL', 'Google Maps API', 'React'],
-      image: 'https://placehold.co/600x400/0ea5e9/ffffff?text=TNVS+Logistics',
+      image: 'log1.png',
       liveLink: 'https://logistics1.jetlougetravels-ph.com/',
       githubLink: '#'
     }
