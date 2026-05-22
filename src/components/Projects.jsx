@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import jetlougeImg from '../image/log1.png';
 
 const ProjectCard = ({ title, description, tech, image, liveLink, githubLink }) => {
   const { t } = useTranslation();
