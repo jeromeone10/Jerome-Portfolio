@@ -128,55 +128,63 @@ const ProjectCard = ({ title, description, tech, image, liveLink, githubLink }) 
         onClick={() => setModalOpen(false)}
       >
         <div
-          className="relative w-full max-w-4xl rounded-3xl overflow-hidden bg-slate-950"
+          className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-950 shadow-2xl shadow-black/40"
           onClick={(e) => e.stopPropagation()}
         >
-          <button
-            type="button"
-            onClick={() => setModalOpen(false)}
-            className="absolute right-4 top-4 z-20 rounded-full bg-slate-900/80 p-3 text-white hover:bg-slate-800"
-            aria-label="Close image viewer"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/95">
+            <div>
+              <p className="text-sm uppercase tracking-[0.2em] text-cyan-400">Project preview</p>
+              <h3 className="text-lg font-semibold text-white">{title}</h3>
+            </div>
+            <button
+              type="button"
+              onClick={() => setModalOpen(false)}
+              className="rounded-full bg-slate-800/90 p-3 text-white transition hover:bg-slate-700"
+              aria-label="Close image viewer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
-          <img
-            src={images[currentSlide]}
-            alt={`${title} slide ${currentSlide + 1}`}
-            className="w-full h-[65vh] object-contain bg-slate-900"
-          />
+          <div className="relative bg-slate-950">
+            <img
+              src={images[currentSlide]}
+              alt={`${title} slide ${currentSlide + 1}`}
+              className="w-full h-[65vh] object-contain bg-slate-900"
+            />
 
-          {images.length > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-slate-900/80 p-3 text-white hover:bg-slate-800"
-                aria-label="Previous slide"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-slate-900/80 p-3 text-white hover:bg-slate-800"
-                aria-label="Next slide"
-              >
-                <ArrowRight className="w-5 h-5" />
-              </button>
-              <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-                {images.map((_, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setCurrentSlide(idx)}
-                    className={`h-3 w-3 rounded-full ${idx === currentSlide ? 'bg-cyan-500' : 'bg-white/60'}`}
-                    aria-label={`Select slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
+            {images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={prevSlide}
+                  className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-slate-900/80 p-3 text-white transition hover:bg-slate-800"
+                  aria-label="Previous slide"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={nextSlide}
+                  className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-slate-900/80 p-3 text-white transition hover:bg-slate-800"
+                  aria-label="Next slide"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+                  {images.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setCurrentSlide(idx)}
+                      className={`h-3 w-3 rounded-full ${idx === currentSlide ? 'bg-cyan-500' : 'bg-white/60'}`}
+                      aria-label={`Select slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     )}
