@@ -60,7 +60,14 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-white dark:bg-slate-900/50 transition-colors">
+    <motion.section
+      id="contact"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, amount: 0.2 }}
+      transition={{ duration: 0.6 }}
+      className="py-24 bg-white dark:bg-slate-900/50 transition-colors"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -232,7 +239,7 @@ const Contact = () => {
           </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

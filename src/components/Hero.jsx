@@ -34,7 +34,14 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <motion.section
+      id="home"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, amount: 0.2 }}
+      transition={{ duration: 0.6 }}
+      className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
+    >
       {/* Background Animated Blobs */}
       <div className="absolute top-0 left-0 w-full h-full -z-10">
         <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-cyan-500/10 rounded-full blur-[100px] animate-pulse"></div>
@@ -135,7 +142,7 @@ const Hero = () => {
           />
         </div>
       </motion.div>
-    </section>
+    </motion.section>
   );
 };
 

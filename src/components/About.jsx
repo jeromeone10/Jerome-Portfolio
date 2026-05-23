@@ -7,7 +7,14 @@ const About = () => {
   const { t } = useTranslation();
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-slate-50/50 dark:bg-transparent transition-colors">
+    <motion.section
+      id="about"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, amount: 0.2 }}
+      transition={{ duration: 0.6 }}
+      className="py-24 relative overflow-hidden bg-slate-50/50 dark:bg-transparent transition-colors"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -67,7 +74,7 @@ const About = () => {
           </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
