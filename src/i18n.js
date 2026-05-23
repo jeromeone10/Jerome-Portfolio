@@ -18,7 +18,8 @@ const resources = {
         title: 'BSIT Student | Web Developer',
         desc: "I'm a passionate full-stack web developer in training, focused on building clean, modern, and user-centric web applications with React and PHP.",
         viewProjects: 'View Projects',
-        contactMe: 'Contact Me'
+        contactMe: 'Contact Me',
+        resume: 'Download Resume'
       },
       about: {
         title: 'About Me',
@@ -105,7 +106,8 @@ const resources = {
         title: 'BSIT Student | Web Developer',
         desc: "Ako ay isang masugid na full-stack web developer na nagsasanay, nakatuon sa paggawa ng malinis, moderno, at user-centric na mga web application gamit ang React at PHP.",
         viewProjects: 'Tingnan ang mga Proyekto',
-        contactMe: 'Kontakin Ako'
+        contactMe: 'Kontakin Ako',
+        resume: 'I-download ang Resume'
       },
       about: {
         title: 'Tungkol sa Akin',

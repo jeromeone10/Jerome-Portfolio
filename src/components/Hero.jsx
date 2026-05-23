@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
 import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import resumePdf from '../NINAL - UPDATED RESUME.pdf';
 
 const Hero = () => {
   const { t } = useTranslation();
@@ -97,6 +98,13 @@ const Hero = () => {
             >
               {t('hero.contactMe')}
             </Link>
+            <a
+              href={resumePdf}
+              download="Jerome_Ninal_Resume.pdf"
+              className="w-full sm:w-auto px-8 py-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-xl font-semibold transition-all flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700 shadow-sm"
+            >
+              {t('hero.resume')}
+            </a>
           </div>
 
           <div className="mt-12 flex items-center justify-center gap-6">
