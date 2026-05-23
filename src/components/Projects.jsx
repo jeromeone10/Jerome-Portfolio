@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import invenFeatureImg from '../invenprod/invenfeature.png';
+import invenLoginImg from '../invenprod/invenlogin.png';
+import invenSignupImg from '../invenprod/invensignup.png';
 import jetlougeImg from '../image/log1.png';
 import jetlougeImg2 from '../image/log2.png';
 import jetlougeImg3 from '../image/log3.png';
@@ -212,7 +215,7 @@ const Projects = () => {
       title: 'InvenProd',
       description: t('projects.items.invenprod.desc'),
       tech: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript'],
-      image: jetlougeImg,
+      image: [invenLoginImg, invenFeatureImg, invenSignupImg],
       liveLink: '#',
       githubLink: '#'
     },
