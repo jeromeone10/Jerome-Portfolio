@@ -8,6 +8,14 @@ const getSkillIcon = (skill) => {
 
   switch (skill) {
     case 'HTML':
+      return (
+        <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" className="w-3.5 h-3.5">
+          <path fill="#E34F26" d="M19 8l9 104 40 11 40-11 9-104H19z" />
+          <path fill="#EF652A" d="M64 107.2l29.3-12.1 6.9-77.1H64v89.2z" />
+          <path fill="#fff" d="M45.2 49.1H42l.9 10.3H64V49.1H45.2zm0-20.2H42l.9 10.3H64V28.9H45.2z" />
+          <path fill="#fff" d="M64 73.4l-11.3-3.1-.7-7.9H38.6l1.3 14.4 23.9 6.6v-9.9zm12.3-2.9l-1.1 12.4-11.2 3.1v9.8l23.8-6.6 1.6-18.1H64V70.5z" />
+        </svg>
+      );
     case 'CSS':
     case 'JavaScript':
     case 'React':

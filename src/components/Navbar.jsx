@@ -3,7 +3,8 @@ import { Link } from 'react-scroll';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import logoImage from '../logo/jerome logo.png';
+import lightLogo from '../logo/jerome logo.png';
+import darkLogo from '../logo/Jerome Logo Design.png';
 
 const Navbar = ({ isDarkMode, toggleTheme }) => {
   const { t } = useTranslation();
@@ -38,9 +39,16 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
         <div className="flex items-center justify-between h-16">
           {/* Left: Logo */}
           <div className="flex-shrink-0 flex items-center gap-3 cursor-pointer group">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-900 dark:bg-slate-100 flex items-center justify-center shadow-lg shadow-cyan-500/20 overflow-hidden transition-transform group-hover:scale-[1.05]">
-              <img src={logoImage} alt="Jerome logo" className="w-full h-full object-contain" />
-            </div>
+            <a
+              href={isDarkMode ? darkLogo : lightLogo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-900 dark:bg-slate-100 flex items-center justify-center shadow-lg shadow-cyan-500/20 overflow-hidden transition-transform group-hover:scale-[1.05]"
+              aria-label="Open logo in new tab"
+              title="Open logo in new tab"
+            >
+              <img src={isDarkMode ? darkLogo : lightLogo} alt="Jerome logo" className="w-full h-full object-contain" />
+            </a>
             <span className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
               Jerome<span className="text-cyan-500">.</span>
             </span>
