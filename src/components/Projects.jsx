@@ -212,7 +212,7 @@ const Projects = () => {
       title: 'InvenProd',
       description: t('projects.items.invenprod.desc'),
       tech: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript'],
-      image: 'https://placehold.co/600x400/0ea5e9/ffffff?text=InvenProd',
+      image: jetlougeImg,
       liveLink: '#',
       githubLink: '#'
     },
