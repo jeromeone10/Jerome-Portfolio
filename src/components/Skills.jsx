@@ -1,7 +1,39 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Monitor, Server, Wrench } from 'lucide-react';
+import { Monitor, Server, Wrench, Code2, Database, Terminal, GitBranch, Zap, Cpu, Send, Wind, Box } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
+const getSkillIcon = (skill) => {
+  const iconProps = { className: 'w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400' };
+
+  switch (skill) {
+    case 'HTML':
+    case 'CSS':
+    case 'JavaScript':
+    case 'React':
+    case 'Bootstrap':
+    case 'VS Code':
+      return <Code2 {...iconProps} />;
+    case 'Tailwind CSS':
+      return <Wind {...iconProps} />;
+    case 'PHP':
+      return <Server {...iconProps} />;
+    case 'MySQL':
+      return <Database {...iconProps} />;
+    case 'Node.js (Learning)':
+      return <Terminal {...iconProps} />;
+    case 'Git':
+      return <GitBranch {...iconProps} />;
+    case 'XAMPP':
+      return <Cpu {...iconProps} />;
+    case 'Postman':
+      return <Send {...iconProps} />;
+    case 'Vite':
+      return <Zap {...iconProps} />;
+    default:
+      return <Box {...iconProps} />;
+  }
+};
 
 const Skills = () => {
   const { t } = useTranslation();
@@ -74,9 +106,10 @@ const Skills = () => {
                 {category.skills.map((skill, sIdx) => (
                   <span
                     key={sIdx}
-                    className="px-3 py-1 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 text-sm border border-slate-200 dark:border-slate-700 group-hover:border-cyan-500/30 transition-colors shadow-sm"
+                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 text-sm border border-slate-200 dark:border-slate-700 group-hover:border-cyan-500/30 transition-colors shadow-sm"
                   >
-                    {skill}
+                    {getSkillIcon(skill)}
+                    <span>{skill}</span>
                   </span>
                 ))}
               </div>
