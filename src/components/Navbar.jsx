@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
-import { Menu, X, Code2, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import logoImage from '../logo/jerome logo.png';
 
 const Navbar = ({ isDarkMode, toggleTheme }) => {
   const { t } = useTranslation();
@@ -36,9 +37,9 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
       <div className="w-full mx-auto px-6 sm:px-8 lg:px-10">
         <div className="flex items-center justify-between h-16">
           {/* Left: Logo */}
-          <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-cyan-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:rotate-6 transition-transform">
-              <Code2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <div className="flex-shrink-0 flex items-center gap-3 cursor-pointer group">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-900 dark:bg-slate-100 flex items-center justify-center shadow-lg shadow-cyan-500/20 overflow-hidden transition-transform group-hover:scale-[1.05]">
+              <img src={logoImage} alt="Jerome logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
               Jerome<span className="text-cyan-500">.</span>
