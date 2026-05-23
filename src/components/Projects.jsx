@@ -11,6 +11,18 @@ const ProjectCard = ({ title, description, tech, image, liveLink, githubLink }) 
   const images = Array.isArray(image) ? image : [image];
   const [currentSlide, setCurrentSlide] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+  const [siteIsDark, setSiteIsDark] = useState(() =>
+    typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+  );
+
+  useEffect(() => {
+    if (typeof MutationObserver === 'undefined' || typeof document === 'undefined') return;
+    const obs = new MutationObserver(() => {
+      setSiteIsDark(document.documentElement.classList.contains('dark'));
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -124,33 +136,33 @@ const ProjectCard = ({ title, description, tech, image, liveLink, githubLink }) 
 
     {modalOpen && (
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 p-4"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-amber-100/95 p-4 dark:bg-slate-900/80"
         onClick={() => setModalOpen(false)}
       >
         <div
-          className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-950 shadow-2xl shadow-black/40"
+          className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-amber-50 shadow-2xl shadow-amber-200/50 dark:bg-slate-900 dark:shadow-black/50"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/95">
+          <div className={`${siteIsDark ? 'bg-amber-100 border-amber-200 text-amber-900' : 'bg-slate-900 border-slate-800 text-white'} flex items-center justify-between px-6 py-4 border-b`}>
             <div>
-              <p className="text-sm uppercase tracking-[0.2em] text-cyan-400">Project preview</p>
-              <h3 className="text-lg font-semibold text-white">{title}</h3>
+              <p className={`${siteIsDark ? 'text-amber-600' : 'text-slate-400'} text-sm uppercase tracking-[0.2em]`}>Project preview</p>
+              <h3 className={`${siteIsDark ? 'text-amber-900' : 'text-white'} text-lg font-semibold`}>{title}</h3>
             </div>
             <button
               type="button"
               onClick={() => setModalOpen(false)}
-              className="rounded-full bg-slate-800/90 p-3 text-white transition hover:bg-slate-700"
+              className={`${siteIsDark ? 'bg-amber-200 text-amber-900 hover:bg-amber-300' : 'bg-slate-800 text-white hover:bg-slate-700'} rounded-full p-3 transition`}
               aria-label="Close image viewer"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="relative bg-slate-950">
+          <div className={`relative ${siteIsDark ? 'bg-white' : 'bg-amber-50'} dark:bg-slate-950`}>
             <img
               src={images[currentSlide]}
               alt={`${title} slide ${currentSlide + 1}`}
-              className="w-full h-[65vh] object-contain bg-slate-900"
+              className={`w-full h-[65vh] object-contain ${siteIsDark ? 'bg-white' : 'bg-amber-50'} dark:bg-slate-900`}
             />
 
             {images.length > 1 && (

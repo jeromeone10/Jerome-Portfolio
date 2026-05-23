@@ -122,9 +122,9 @@ const Contact = () => {
               <h4 className="text-slate-900 dark:text-white font-bold mb-4">{t('contact.follow')}</h4>
               <div className="flex gap-4">
                 {[
-                  { icon: <Github className="w-5 h-5" />, link: '#' },
-                  { icon: <Linkedin className="w-5 h-5" />, link: '#' },
-                  { icon: <Facebook className="w-5 h-5" />, link: '#' }
+                  { icon: <Github className="w-5 h-5" />, link: 'https://github.com/jeromeone10' },
+                  { icon: <Linkedin className="w-5 h-5" />, link: 'https://www.linkedin.com/in/jerome-ninal' },
+                  { icon: <Facebook className="w-5 h-5" />, link: 'https://www.facebook.com/jerome.matugas.ninal/' }
                 ].map((social, idx) => (
                   <a
                     key={idx}
