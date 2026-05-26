@@ -214,7 +214,7 @@ const Projects = () => {
     {
       title: 'InvenProd',
       description: t('projects.items.invenprod.desc'),
-      tech: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript'],
+      tech: ['PHP', 'MySQL', 'Tailwind CSS', 'JavaScript'],
       image: [invenLoginImg, invenFeatureImg, invenSignupImg],
       liveLink: '#',
       githubLink: '#'
@@ -230,7 +230,7 @@ const Projects = () => {
     {
       title: 'Jetlouge Travels Logistics System',
       description: t('projects.items.tnvs.desc'),
-      tech: ['Laravel', 'MySQL', 'Google Maps API', 'React'],
+      tech: ['Laravel', 'MySQL', 'Google Maps API', 'Bootstrap'],
       image: [jetlougeImg, jetlougeImg2, jetlougeImg3],
       liveLink: 'https://logistics1.jetlougetravels-ph.com/',
       githubLink: '#'
