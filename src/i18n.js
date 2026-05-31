@@ -80,8 +80,8 @@ const resources = {
           },
           send: 'Send Message',
           sending: 'Sending...',
-          notRobot: 'I am not a robot',
-          robotError: 'Please confirm you are not a robot.',
+          recaptchaLoadError: 'Unable to load reCAPTCHA. Please refresh the page.',
+          recaptchaTokenError: 'reCAPTCHA verification failed. Please try again.',
           botDetected: 'Bot activity detected. Please try again.',
           success: 'Message sent successfully!',
           error: 'Something went wrong. Please try again.'
@@ -171,8 +171,8 @@ const resources = {
           },
           send: 'Ipadala ang Mensahe',
           sending: 'Ipinapadala...',
-          notRobot: 'Hindi ako robot',
-          robotError: 'Mangyaring kumpirmahin na hindi ka robot.',
+          recaptchaLoadError: 'Hindi ma-load ang reCAPTCHA. Pakirefresh ang pahina.',
+          recaptchaTokenError: 'Nabigo ang reCAPTCHA verification. Pakisubukang muli.',
           botDetected: 'May nakita na aktibidad ng bot. Pakisubukang muli.',
           success: 'Matagumpay na naipadala ang mensahe!',
           error: 'May nagkamali. Pakisubukang muli.'

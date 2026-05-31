@@ -12,7 +12,42 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/api/send-mail', async (req, res) => {
-    const { name, email, subject, message } = req.body;
+    const { name, email, subject, message, recaptchaToken, botField } = req.body;
+
+    if (botField) {
+        return res.status(400).json({ success: false, message: 'Bot activity detected.' });
+    }
+
+    if (!recaptchaToken) {
+        return res.status(400).json({ success: false, message: 'reCAPTCHA token missing.' });
+    }
+
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY || '6LdchwUtAAAAAKUme7VRtrQVujNInYTUY_puksyh';
+    const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
+    const verifyBody = new URLSearchParams({
+        secret: recaptchaSecret,
+        response: recaptchaToken
+    });
+
+    try {
+        const verifyResponse = await fetch(verifyUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: verifyBody
+        });
+
+        const verifyData = await verifyResponse.json();
+
+        if (!verifyData.success || verifyData.score < 0.5 || verifyData.action !== 'contact') {
+            console.error('reCAPTCHA verification failed:', verifyData);
+            return res.status(400).json({ success: false, message: 'reCAPTCHA verification failed.' });
+        }
+    } catch (error) {
+        console.error('reCAPTCHA verification error:', error);
+        return res.status(500).json({ success: false, message: 'Unable to verify reCAPTCHA.' });
+    }
 
     // Create a transporter using SMTP
     const transporter = nodemailer.createTransport({

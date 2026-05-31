@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Facebook } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -12,44 +12,101 @@ const Contact = () => {
     message: '',
     botField: ''
   });
-  const [isHuman, setIsHuman] = useState(false);
   const [captchaError, setCaptchaError] = useState('');
+  const [recaptchaReady, setRecaptchaReady] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  const recaptchaRef = useRef(null);
+
+  useEffect(() => {
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+    if (!siteKey) {
+      console.log('reCAPTCHA site key not configured - skipping reCAPTCHA');
+      return;
+    }
+    if (window.grecaptcha) {
+      setRecaptchaReady(true);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js`;
+    script.async = true;
+    script.defer = true;
+
+    script.onload = () => {
+      if (!window.grecaptcha) {
+        console.warn('reCAPTCHA loaded but grecaptcha is missing');
+        return;
+      }
+      setRecaptchaReady(true);
+      // Render the reCAPTCHA widget
+      if (recaptchaRef.current) {
+        window.grecaptcha.render(recaptchaRef.current, {
+          sitekey: siteKey
+        });
+      }
+    };
+
+    script.onerror = () => {
+      console.warn('Failed to load reCAPTCHA script');
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      const scripts = document.querySelectorAll('script[src*="google.com/recaptcha/api.js"]');
+      scripts.forEach((script) => script.parentNode?.removeChild(script));
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
+    setCaptchaError('');
+
+    if (formData.botField) {
+      setSubmitStatus('error');
+      setCaptchaError(t('contact.form.botDetected'));
+      setIsSubmitting(false);
+      return;
+    }
+
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+    let token = null;
+
+    if (siteKey && window.grecaptcha) {
+      if (!window.grecaptcha.getResponse()) {
+        setCaptchaError('Please complete the reCAPTCHA');
+        setSubmitStatus('error');
+        setIsSubmitting(false);
+        return;
+      }
+      token = window.grecaptcha.getResponse();
+    }
 
     try {
-      if (!isHuman) {
-        setCaptchaError(t('contact.form.robotError'));
-        setIsSubmitting(false);
-        return;
-      }
-
-      if (formData.botField) {
-        setSubmitStatus('error');
-        setCaptchaError(t('contact.form.botDetected'));
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Using Web3Forms for production (Works on Vercel and all devices)
-      // Get your Access Key from https://web3forms.com/
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/send-mail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          access_key:'be9046cd-95e6-4b4f-a8f9-405f57f9cf7e', // Replace with your real key
           ...formData,
+          recaptchaToken: token,
           subject: `New Portfolio Message: ${formData.subject}`
         })
       });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        console.error('Submission failed:', payload || response.statusText);
+        setSubmitStatus('error');
+        setCaptchaError(payload?.message || t('contact.form.error'));
+        return;
+      }
 
       const data = await response.json();
 
@@ -57,13 +114,13 @@ const Contact = () => {
         console.log('Form submitted successfully:', data);
         setSubmitStatus('success');
         setFormData({ name: '', email: '', subject: '', message: '', botField: '' });
-        setIsHuman(false);
         setCaptchaError('');
         // Clear success message after 5 seconds
         setTimeout(() => setSubmitStatus(null), 5000);
       } else {
         console.error('Submission failed:', data);
         setSubmitStatus('error');
+        setCaptchaError(data.message || t('contact.form.error'));
       }
     } catch (error) {
       console.error('Submission error:', error);
@@ -235,27 +292,15 @@ const Contact = () => {
                 tabIndex={-1}
               />
 
-              <div className="flex items-center gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 p-4">
-                <input
-                  id="notRobot"
-                  type="checkbox"
-                  checked={isHuman}
-                  onChange={(e) => {
-                    setIsHuman(e.target.checked);
-                    if (e.target.checked) {
-                      setCaptchaError('');
-                    }
-                  }}
-                  className="h-5 w-5 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500"
-                />
-                <label htmlFor="notRobot" className="text-sm font-medium text-slate-900 dark:text-slate-100">
-                  {t('contact.form.notRobot')}
-                </label>
-              </div>
-
               {captchaError && (
                 <div className="text-sm text-red-600 dark:text-red-400">
                   {captchaError}
+                </div>
+              )}
+
+              {recaptchaReady && import.meta.env.VITE_RECAPTCHA_SITE_KEY && (
+                <div className="flex justify-start">
+                  <div ref={recaptchaRef} className="g-recaptcha" data-sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}></div>
                 </div>
               )}
 

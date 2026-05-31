@@ -38,6 +38,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $data['email'];
     $subject = $data['subject'];
     $message = $data['message'];
+    $recaptchaToken = $data['recaptchaToken'] ?? '';
+    $botField = $data['botField'] ?? '';
+
+    if ($botField) {
+        echo json_encode(['success' => false, 'message' => 'Bot activity detected.']);
+        exit;
+    }
+
+    if (!$recaptchaToken) {
+        echo json_encode(['success' => false, 'message' => 'reCAPTCHA token missing.']);
+        exit;
+    }
+
+    $recaptchaSecret = '6LdchwUtAAAAAKUme7VRtrQVujNInYTUY_puksyh';
+    $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
+    $verifyResponse = file_get_contents($verifyUrl . '?secret=' . urlencode($recaptchaSecret) . '&response=' . urlencode($recaptchaToken));
+    $result = json_decode($verifyResponse, true);
+
+    if (!$result || empty($result['success']) || $result['score'] < 0.5 || ($result['action'] ?? '') !== 'contact') {
+        echo json_encode(['success' => false, 'message' => 'reCAPTCHA verification failed.']);
+        exit;
+    }
 
     $mail = new PHPMailer(true);
 
