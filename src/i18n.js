@@ -80,6 +80,9 @@ const resources = {
           },
           send: 'Send Message',
           sending: 'Sending...',
+          notRobot: 'I am not a robot',
+          robotError: 'Please confirm you are not a robot.',
+          botDetected: 'Bot activity detected. Please try again.',
           success: 'Message sent successfully!',
           error: 'Something went wrong. Please try again.'
         }
@@ -168,6 +171,9 @@ const resources = {
           },
           send: 'Ipadala ang Mensahe',
           sending: 'Ipinapadala...',
+          notRobot: 'Hindi ako robot',
+          robotError: 'Mangyaring kumpirmahin na hindi ka robot.',
+          botDetected: 'May nakita na aktibidad ng bot. Pakisubukang muli.',
           success: 'Matagumpay na naipadala ang mensahe!',
           error: 'May nagkamali. Pakisubukang muli.'
         }

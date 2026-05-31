@@ -9,8 +9,11 @@ const Contact = () => {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
+    botField: ''
   });
+  const [isHuman, setIsHuman] = useState(false);
+  const [captchaError, setCaptchaError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
 
@@ -20,6 +23,19 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
+      if (!isHuman) {
+        setCaptchaError(t('contact.form.robotError'));
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (formData.botField) {
+        setSubmitStatus('error');
+        setCaptchaError(t('contact.form.botDetected'));
+        setIsSubmitting(false);
+        return;
+      }
+
       // Using Web3Forms for production (Works on Vercel and all devices)
       // Get your Access Key from https://web3forms.com/
       const response = await fetch('https://api.web3forms.com/submit', {
@@ -40,7 +56,9 @@ const Contact = () => {
       if (data.success) {
         console.log('Form submitted successfully:', data);
         setSubmitStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setFormData({ name: '', email: '', subject: '', message: '', botField: '' });
+        setIsHuman(false);
+        setCaptchaError('');
         // Clear success message after 5 seconds
         setTimeout(() => setSubmitStatus(null), 5000);
       } else {
@@ -206,7 +224,41 @@ const Contact = () => {
                   placeholder={t('contact.form.placeholder.message')}
                 ></textarea>
               </div>
-              
+
+              <input
+                type="text"
+                name="botField"
+                value={formData.botField}
+                onChange={handleChange}
+                autoComplete="off"
+                className="hidden"
+                tabIndex={-1}
+              />
+
+              <div className="flex items-center gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 p-4">
+                <input
+                  id="notRobot"
+                  type="checkbox"
+                  checked={isHuman}
+                  onChange={(e) => {
+                    setIsHuman(e.target.checked);
+                    if (e.target.checked) {
+                      setCaptchaError('');
+                    }
+                  }}
+                  className="h-5 w-5 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500"
+                />
+                <label htmlFor="notRobot" className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                  {t('contact.form.notRobot')}
+                </label>
+              </div>
+
+              {captchaError && (
+                <div className="text-sm text-red-600 dark:text-red-400">
+                  {captchaError}
+                </div>
+              )}
+
               {submitStatus === 'success' && (
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
