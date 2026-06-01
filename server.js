@@ -22,7 +22,6 @@ app.post('/api/send-mail', async (req, res) => {
         return res.status(400).json({ success: false, message: 'reCAPTCHA token missing.' });
     }
 
-    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY || '6LdchwUtAAAAAKUme7VRtrQVujNInYTUY_puksyh';
     const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
     const verifyBody = new URLSearchParams({
         secret: recaptchaSecret,
