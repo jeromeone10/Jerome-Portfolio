@@ -21,7 +21,6 @@ const Contact = () => {
   useEffect(() => {
     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
     if (!siteKey) {
-      console.log('reCAPTCHA site key not configured - skipping reCAPTCHA');
       return;
     }
     if (window.grecaptcha) {
