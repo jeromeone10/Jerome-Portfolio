@@ -17,38 +17,47 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
   const recaptchaRef = useRef(null);
+  const widgetIdRef = useRef(null);
 
   useEffect(() => {
     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
     if (!siteKey) {
-      return;
-    }
-    if (window.grecaptcha) {
-      setRecaptchaReady(true);
+      setRecaptchaReady(false);
       return;
     }
 
-    const script = document.createElement('script');
-    script.src = `https://www.google.com/recaptcha/api.js`;
-    script.async = true;
-    script.defer = true;
-
-    script.onload = () => {
-      if (!window.grecaptcha) {
-        console.warn('reCAPTCHA loaded but grecaptcha is missing');
-        return;
-      }
-      setRecaptchaReady(true);
-      // Render the reCAPTCHA widget
-      if (recaptchaRef.current) {
-        window.grecaptcha.render(recaptchaRef.current, {
-          sitekey: siteKey
-        });
+    const renderCaptcha = () => {
+      if (window.grecaptcha && recaptchaRef.current && widgetIdRef.current === null) {
+        try {
+          widgetIdRef.current = window.grecaptcha.render(recaptchaRef.current, {
+            sitekey: siteKey
+          });
+          setRecaptchaReady(true);
+        } catch (error) {
+          console.warn('Failed to render reCAPTCHA:', error);
+          setRecaptchaReady(false);
+        }
       }
     };
 
+    if (window.grecaptcha) {
+      renderCaptcha();
+      return;
+    }
+
+    // Add global callback for when reCAPTCHA loads
+    window.onRecaptchaLoad = () => {
+      renderCaptcha();
+    };
+
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad`;
+    script.async = true;
+    script.defer = true;
+
     script.onerror = () => {
       console.warn('Failed to load reCAPTCHA script');
+      setRecaptchaReady(false);
     };
 
     document.body.appendChild(script);
@@ -56,6 +65,8 @@ const Contact = () => {
     return () => {
       const scripts = document.querySelectorAll('script[src*="google.com/recaptcha/api.js"]');
       scripts.forEach((script) => script.parentNode?.removeChild(script));
+      delete window.onRecaptchaLoad;
+      widgetIdRef.current = null;
     };
   }, []);
 
@@ -75,14 +86,20 @@ const Contact = () => {
     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
     let token = null;
 
-    if (siteKey && window.grecaptcha) {
-      if (!window.grecaptcha.getResponse()) {
-        setCaptchaError('Please complete the reCAPTCHA');
-        setSubmitStatus('error');
-        setIsSubmitting(false);
-        return;
+    if (siteKey && window.grecaptcha && recaptchaReady) {
+      try {
+        const response = window.grecaptcha.getResponse(widgetIdRef.current);
+        if (!response) {
+          setCaptchaError('Please complete the reCAPTCHA');
+          setSubmitStatus('error');
+          setIsSubmitting(false);
+          return;
+        }
+        token = response;
+      } catch (error) {
+        console.warn('Failed to get reCAPTCHA token:', error);
+        // Proceed without token if reCAPTCHA fails
       }
-      token = window.grecaptcha.getResponse();
     }
 
     try {
@@ -297,7 +314,7 @@ const Contact = () => {
                 </div>
               )}
 
-              {recaptchaReady && import.meta.env.VITE_RECAPTCHA_SITE_KEY && (
+              {import.meta.env.VITE_RECAPTCHA_SITE_KEY && (
                 <div className="flex justify-start">
                   <div ref={recaptchaRef} className="g-recaptcha" data-sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}></div>
                 </div>
