@@ -53,7 +53,7 @@ app.post('/api/send-mail', async (req, res) => {
         service: 'gmail',
         auth: {
             user: 'jeromethree12@gmail.com', // Your Gmail address
-            pass: 'dkzcnhtnalabshcq'    // Your Gmail App Password
+            pass: 'lykjcbmtszxrqcvk'    // Your Gmail App Password
         }
     });
 
