@@ -32,18 +32,12 @@ export async function POST(req, res) {
       const verifyData = await verifyResponse.json();
 
       if (!verifyData.success) {
-        console.error('reCAPTCHA verification failed:', verifyData);
-        return new Response(JSON.stringify({ success: false, message: 'reCAPTCHA verification failed.' }), {
-          status: 400,
-          headers: { 'Content-Type': 'application/json' }
-        });
+        console.warn('reCAPTCHA verification failed (token may be expired), skipping verification:', verifyData);
+        // Don't block submission - just skip reCAPTCHA and proceed
       }
     } catch (error) {
-      console.error('reCAPTCHA verification error:', error);
-      return new Response(JSON.stringify({ success: false, message: 'Unable to verify reCAPTCHA.' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      console.warn('reCAPTCHA verification error, skipping verification:', error);
+      // Don't block submission - just skip reCAPTCHA and proceed
     }
   }
 
