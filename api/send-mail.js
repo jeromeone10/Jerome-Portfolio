@@ -10,51 +10,41 @@ export async function POST(req, res) {
     });
   }
 
-  if (!recaptchaToken) {
-    return new Response(JSON.stringify({ success: false, message: 'reCAPTCHA token missing.' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
   const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-  if (!recaptchaSecret) {
-    return new Response(JSON.stringify({ success: false, message: 'Server configuration error.' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
-  const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
-  const verifyBody = new URLSearchParams({
-    secret: recaptchaSecret,
-    response: recaptchaToken
-  });
-
-  try {
-    const verifyResponse = await fetch(verifyUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: verifyBody
+  
+  // Only verify reCAPTCHA if both secret key and token are present
+  if (recaptchaSecret && recaptchaToken) {
+    const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
+    const verifyBody = new URLSearchParams({
+      secret: recaptchaSecret,
+      response: recaptchaToken
     });
 
-    const verifyData = await verifyResponse.json();
+    try {
+      const verifyResponse = await fetch(verifyUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: verifyBody
+      });
 
-    if (!verifyData.success) {
-      console.error('reCAPTCHA verification failed:', verifyData);
-      return new Response(JSON.stringify({ success: false, message: 'reCAPTCHA verification failed.' }), {
-        status: 400,
+      const verifyData = await verifyResponse.json();
+
+      if (!verifyData.success) {
+        console.error('reCAPTCHA verification failed:', verifyData);
+        return new Response(JSON.stringify({ success: false, message: 'reCAPTCHA verification failed.' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    } catch (error) {
+      console.error('reCAPTCHA verification error:', error);
+      return new Response(JSON.stringify({ success: false, message: 'Unable to verify reCAPTCHA.' }), {
+        status: 500,
         headers: { 'Content-Type': 'application/json' }
       });
     }
-  } catch (error) {
-    console.error('reCAPTCHA verification error:', error);
-    return new Response(JSON.stringify({ success: false, message: 'Unable to verify reCAPTCHA.' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
   }
 
   // Create a transporter using SMTP
