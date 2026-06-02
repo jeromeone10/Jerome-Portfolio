@@ -65,12 +65,10 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                   smooth={true}
                   offset={-70}
                   duration={0}
-                  className="px-5 lg:px-7 py-2.5 rounded-full text-[14px] lg:text-[15px] font-bold transition-all cursor-pointer relative group text-slate-600 dark:text-slate-400"
-                  activeClass="!bg-white dark:!bg-slate-800 !text-cyan-600 dark:!text-cyan-400 shadow-sm"
+                  className="px-5 lg:px-7 py-2.5 rounded-full text-[14px] lg:text-[15px] font-bold transition-all cursor-pointer relative group text-slate-600 dark:text-slate-400 hover:bg-cyan-500/10 hover:text-cyan-600 dark:hover:text-cyan-400"
+                  activeClass="!bg-cyan-500 !text-white !shadow-lg !shadow-cyan-500/40"
                 >
-                  <span className="relative z-10 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                    {link.name}
-                  </span>
+                  {link.name}
                 </Link>
               ))}
             </div>
@@ -117,8 +115,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                     offset={-70}
                     duration={0}
                     onClick={() => setIsOpen(false)}
-                    className="block px-6 py-4 rounded-2xl text-lg font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 transition-all cursor-pointer text-center border border-white/5 shadow-sm"
-                    activeClass="!bg-white/10 !text-cyan-400 !border-white/10 shadow-md"
+                    className="block px-6 py-4 rounded-2xl text-lg font-bold text-slate-300 hover:text-cyan-400 bg-white/5 hover:bg-cyan-500/10 transition-all cursor-pointer text-center border border-white/5 shadow-sm"
+                    activeClass="!bg-cyan-500 !text-white !shadow-lg !shadow-cyan-500/40"
                   >
                     {link.name}
                   </Link>
