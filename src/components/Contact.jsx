@@ -18,6 +18,7 @@ const Contact = () => {
   const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
   const recaptchaRef = useRef(null);
   const widgetIdRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
@@ -27,9 +28,14 @@ const Contact = () => {
     }
 
     const renderCaptcha = () => {
-      if (window.grecaptcha && recaptchaRef.current && widgetIdRef.current === null) {
+      if (window.grecaptcha && containerRef.current && widgetIdRef.current === null) {
         try {
-          widgetIdRef.current = window.grecaptcha.render(recaptchaRef.current, {
+          // Clear any existing content
+          containerRef.current.innerHTML = '';
+          // Create a new div for reCAPTCHA
+          const captchaDiv = document.createElement('div');
+          containerRef.current.appendChild(captchaDiv);
+          widgetIdRef.current = window.grecaptcha.render(captchaDiv, {
             sitekey: siteKey
           });
           setRecaptchaReady(true);
@@ -42,30 +48,32 @@ const Contact = () => {
 
     if (window.grecaptcha) {
       renderCaptcha();
-      return;
+    } else {
+      // Add global callback for when reCAPTCHA loads
+      window.onRecaptchaLoad = () => {
+        renderCaptcha();
+      };
+
+      const script = document.createElement('script');
+      script.src = `https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad`;
+      script.async = true;
+      script.defer = true;
+
+      script.onerror = () => {
+        console.warn('Failed to load reCAPTCHA script');
+        setRecaptchaReady(false);
+      };
+
+      document.body.appendChild(script);
     }
-
-    // Add global callback for when reCAPTCHA loads
-    window.onRecaptchaLoad = () => {
-      renderCaptcha();
-    };
-
-    const script = document.createElement('script');
-    script.src = `https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad`;
-    script.async = true;
-    script.defer = true;
-
-    script.onerror = () => {
-      console.warn('Failed to load reCAPTCHA script');
-      setRecaptchaReady(false);
-    };
-
-    document.body.appendChild(script);
 
     return () => {
       const scripts = document.querySelectorAll('script[src*="google.com/recaptcha/api.js"]');
       scripts.forEach((script) => script.parentNode?.removeChild(script));
       delete window.onRecaptchaLoad;
+      if (containerRef.current) {
+        containerRef.current.innerHTML = '';
+      }
       widgetIdRef.current = null;
     };
   }, []);
@@ -316,7 +324,7 @@ const Contact = () => {
 
               {import.meta.env.VITE_RECAPTCHA_SITE_KEY && (
                 <div className="flex justify-start">
-                  <div ref={recaptchaRef} className="g-recaptcha" data-sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}></div>
+                  <div ref={containerRef}></div>
                 </div>
               )}
 
