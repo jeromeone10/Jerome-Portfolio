@@ -65,8 +65,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                   smooth={true}
                   offset={-70}
                   duration={0}
-                  className="px-5 lg:px-7 py-2.5 rounded-full text-[14px] lg:text-[15px] font-bold transition-all cursor-pointer relative group text-slate-600 dark:text-slate-400 hover:bg-cyan-500/10 hover:text-cyan-600 dark:hover:text-cyan-400"
-                  activeClass="!bg-cyan-500 !text-white !shadow-lg !shadow-cyan-500/40"
+                  className="px-5 lg:px-7 py-2.5 rounded-full text-[14px] lg:text-[15px] font-bold transition-all cursor-pointer relative group text-slate-600 dark:text-slate-400 hover:bg-cyan-500/20 hover:text-cyan-700 dark:hover:text-cyan-300"
+                  activeClass="!bg-cyan-500 !text-white !shadow-lg !shadow-cyan-500/40 hover:!bg-cyan-600 hover:!shadow-xl"
                 >
                   {link.name}
                 </Link>
@@ -104,7 +104,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="md:hidden mx-6 mt-4"
           >
-            <div className="bg-slate-900/90 dark:bg-slate-900/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/10 relative overflow-hidden min-h-[320px] flex flex-col px-4 pt-6 pb-6">
+            <div className="bg-white dark:bg-slate-900/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-white/10 relative overflow-hidden min-h-[320px] flex flex-col px-4 pt-6 pb-6">
               <div className="flex-grow space-y-3">
                 {navLinks.map((link) => (
                   <Link
@@ -115,8 +115,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                     offset={-70}
                     duration={0}
                     onClick={() => setIsOpen(false)}
-                    className="block px-6 py-4 rounded-2xl text-lg font-bold text-slate-300 hover:text-cyan-400 bg-white/5 hover:bg-cyan-500/10 transition-all cursor-pointer text-center border border-white/5 shadow-sm"
-                    activeClass="!bg-cyan-500 !text-white !shadow-lg !shadow-cyan-500/40"
+                    className="block px-6 py-4 rounded-2xl text-lg font-bold text-slate-600 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 bg-slate-100 dark:bg-white/5 hover:bg-cyan-500/20 dark:hover:bg-cyan-500/20 transition-all cursor-pointer text-center border border-slate-200 dark:border-white/5 shadow-sm"
+                    activeClass="!bg-cyan-500 !text-white !shadow-lg !shadow-cyan-500/40 hover:!bg-cyan-600 hover:!shadow-xl"
                   >
                     {link.name}
                   </Link>

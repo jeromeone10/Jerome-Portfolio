@@ -36,7 +36,7 @@ const LanguageSelector = ({ isMobileMenu = false }) => {
         onClick={() => setIsOpen(!isOpen)}
         className={`${
           isMobileMenu 
-            ? 'w-full flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-white/5 text-slate-300 hover:text-white transition-all border border-white/10 shadow-sm'
+            ? 'w-full flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-500/10 dark:hover:bg-cyan-500/10 transition-all border border-slate-200 dark:border-white/10 shadow-sm'
             : 'flex items-center gap-2 px-2.5 sm:px-3 py-2.5 sm:py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer'
         }`}
       >
