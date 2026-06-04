@@ -56,7 +56,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
 
           {/* Middle: Desktop Menu */}
           <div className="hidden md:flex items-center justify-center flex-grow px-4">
-            <div className="flex items-center space-x-1 bg-slate-900/5 dark:bg-white/5 p-1.5 rounded-full border border-slate-900/5 dark:border-white/5 backdrop-blur-xl">
+            <div className="flex items-center space-x-2 bg-slate-900/5 dark:bg-white/5 p-1.5 rounded-full border border-slate-900/5 dark:border-white/5 backdrop-blur-xl">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
@@ -65,7 +65,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                   smooth={true}
                   offset={-70}
                   duration={0}
-                  className="px-5 lg:px-7 py-2.5 rounded-full text-[14px] lg:text-[15px] font-bold transition-all cursor-pointer relative group text-slate-600 dark:text-slate-400 hover:bg-cyan-500/20 hover:text-cyan-700 dark:hover:text-cyan-300"
+                  className="px-7 lg:px-10 py-2.5 rounded-full text-[14px] lg:text-[15px] font-bold transition-all cursor-pointer relative group text-slate-600 dark:text-slate-400 hover:bg-cyan-500/20 hover:text-cyan-700 dark:hover:text-cyan-300"
                   activeClass="!bg-cyan-500 !text-white !shadow-lg !shadow-cyan-500/40 hover:!bg-cyan-600 hover:!shadow-xl"
                 >
                   {link.name}

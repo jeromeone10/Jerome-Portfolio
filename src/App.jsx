@@ -6,6 +6,7 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import ResumeChatbot from './components/ResumeChatbot';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -33,6 +34,7 @@ function App() {
         <Contact isDarkMode={isDarkMode} />
       </main>
       <Footer isDarkMode={isDarkMode} />
+      <ResumeChatbot isDarkMode={isDarkMode} />
     </div>
   );
 }

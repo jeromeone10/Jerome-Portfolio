@@ -15,16 +15,16 @@ const resources = {
       hero: {
         badge: 'Available for new opportunities',
         greeting: "Hi, I'm",
-        title: 'BSIT Student | Web Developer',
-        desc: "I'm a passionate full-stack web developer in training, focused on building clean, modern, and user-centric web applications with React and PHP.",
+        title: 'BSIT Graduate | Web Developer',
+        desc: "I'm a passionate full-stack web developer focused on building clean, modern, and user-centric web applications with React and PHP.",
         viewProjects: 'View Projects',
         contactMe: 'Contact Me',
         resume: 'Download Resume'
       },
       about: {
         title: 'About Me',
-        subtitle: 'Aspiring Full-Stack Web Developer',
-        desc1: 'I am a dedicated BSIT student with a strong passion for web development. My journey began with curiosity about how websites function, which quickly evolved into a commitment to mastering both frontend and backend technologies.',
+        subtitle: 'Full-Stack Web Developer',
+        desc1: 'I am a dedicated BSIT graduate with a strong passion for web development. My journey began with curiosity about how websites function, which quickly evolved into a commitment to mastering both frontend and backend technologies.',
         desc2: 'Currently, I am working on several key projects that showcase my ability to solve real-world problems through code:',
         projects: {
           invenprod: 'A robust Inventory Management System for tracking stock and sales.',
@@ -88,7 +88,7 @@ const resources = {
         }
       },
       footer: {
-        role: 'BSIT Student & Aspiring Full-Stack Developer',
+        role: 'BSIT Graduate & Full-Stack Developer',
         rights: 'All rights reserved.',
         madeWith: 'Made with'
       }
@@ -106,16 +106,16 @@ const resources = {
       hero: {
         badge: 'Bukas para sa mga bagong oportunidad',
         greeting: "Kumusta, Ako si",
-        title: 'BSIT Student | Web Developer',
-        desc: "Ako ay isang masugid na full-stack web developer na nagsasanay, nakatuon sa paggawa ng malinis, moderno, at user-centric na mga web application gamit ang React at PHP.",
+        title: 'BSIT Graduate | Web Developer',
+        desc: "Ako ay isang masugid na full-stack web developer, nakatuon sa paggawa ng malinis, moderno, at user-centric na mga web application gamit ang React at PHP.",
         viewProjects: 'Tingnan ang mga Proyekto',
         contactMe: 'Kontakin Ako',
         resume: 'I-download ang Resume'
       },
       about: {
         title: 'Tungkol sa Akin',
-        subtitle: 'Naglalayong maging Full-Stack Web Developer',
-        desc1: 'Ako ay isang dedikadong estudyante ng BSIT na may malakas na hilig sa pagbuo ng mga website. Nagsimula ang aking paglalakbay sa pag-usisa kung paano gumagana ang mga website, na mabilis na naging isang pangako sa pagpapakadalubhasa sa parehong frontend at backend na mga teknolohiya.',
+        subtitle: 'Full-Stack Web Developer',
+        desc1: 'Ako ay isang dedikadong graduate ng BSIT na may malakas na hilig sa pagbuo ng mga website. Nagsimula ang aking paglalakbay sa pag-usisa kung paano gumagana ang mga website, na mabilis na naging isang pangako sa pagpapakadalubhasa sa parehong frontend at backend na mga teknolohiya.',
         desc2: 'Sa kasalukuyan, nagtatrabaho ako sa ilang mahahalagang proyekto na nagpapakita ng aking kakayahang lutasin ang mga tunay na problema sa pamamagitan ng code:',
         projects: {
           invenprod: 'Isang matibay na Inventory Management System para sa pagsubaybay ng stock at benta.',
@@ -179,7 +179,7 @@ const resources = {
         }
       },
       footer: {
-        role: 'BSIT Student & Aspiring Full-Stack Developer',
+        role: 'BSIT Graduate & Full-Stack Developer',
         rights: 'Lahat ng karapatan ay nakareserba.',
         madeWith: 'Gawa gamit ang'
       }
