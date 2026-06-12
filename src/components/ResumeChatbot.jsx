@@ -37,7 +37,7 @@ const ResumeChatbot = ({ isDarkMode }) => {
       "Full-stack applications with React and PHP"
     ],
     contact: "matugasjerome@gmail.com",
-    location: "Manila, Philippines",
+    location: "Quezon City, Philippines",
     interests: [
       "Web Development",
       "Learning new technologies",
@@ -57,7 +57,7 @@ const ResumeChatbot = ({ isDarkMode }) => {
     }
     
     if (q.includes('education') || q.includes('school') || q.includes('study')) {
-      return `I'm currently pursuing my ${resumeKnowledge.education}.`;
+      return `I'm recently completed my ${resumeKnowledge.education}.`;
     }
     
     if (q.includes('skill') || q.includes('what can you do') || q.includes('technologies')) {
