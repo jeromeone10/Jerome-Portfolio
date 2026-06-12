@@ -219,14 +219,7 @@ const Projects = () => {
       liveLink: '#',
       githubLink: '#'
     },
-    {
-      title: 'Auto-checker',
-      description: t('projects.items.autochecker.desc'),
-      tech: ['React', 'Node.js', 'Python', 'Tailwind CSS'],
-      image: 'https://placehold.co/600x400/0ea5e9/ffffff?text=Auto-checker',
-      liveLink: '#',
-      githubLink: '#'
-    },
+    
     {
       title: 'Jetlouge Travels Logistics I System',
       description: t('projects.items.tnvs.desc'),
