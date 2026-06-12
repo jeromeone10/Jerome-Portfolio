@@ -228,12 +228,12 @@ const Projects = () => {
       githubLink: '#'
     },
     {
-      title: 'Jetlouge Travels Logistics System',
+      title: 'Jetlouge Travels Logistics I System',
       description: t('projects.items.tnvs.desc'),
-      tech: ['Laravel', 'MySQL', 'Google Maps API', 'Bootstrap'],
+      tech: ['Laravel', 'MySQL', 'Leaflet', 'Bootstrap, 'Python'],
       image: [jetlougeImg, jetlougeImg2, jetlougeImg3],
       liveLink: 'https://logistics1.jetlougetravels-ph.com/',
-      githubLink: '#'
+      githubLink: 'https://jeromeone10-logistics1'
     }
   ];
 
